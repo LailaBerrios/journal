@@ -4,40 +4,37 @@
 //Lets require/import the HTTP module
 var http = require('http');
 var dispatcher = require('httpdispatcher');
+var jsonfile = require('jsonfile');
 
 //Lets define a port we want to listen to
 var PORT=32100;
 
-var mockJournal = {
-    entries: [
-        {
-            date: 'Today',
-            content: 'I did things.'
-        },
-        {
-            date: 'Tomorrow',
-            content: 'I did something else.'
-        }
-    ]
-};
-
 //A sample GET request
 dispatcher.onGet("/journal", function(request, response) {
-    response.writeHead(200, {'Content-Type': 'application/json'});
-
-    var entryId = request.params.entry;
-    if (entryId) {
-        var myEntry = mockJournal.entries[Number(entryId)];
-        response.write(JSON.stringify(myEntry));
-    } else {
-        response.write(JSON.stringify(mockJournal));
-    }
-    response.end();
+    jsonfile.readFile('data.json', function(err, database) {
+        if (err) {
+            console.error(err);
+            response.writeHead(500, {'Content-Type': 'text/plain'});
+            response.write(err);
+            response.end();
+        } else {
+            var entryIdString = request.params.entry;
+            var entryId = entryIdString && Number(entryIdString);
+            response.writeHead(200, {'Content-Type': 'application/json'});
+            if (entryIdString && entryId >= 0 && entryId < database.entries.length) {
+                response.write(JSON.stringify(database.entries[entryId]));
+            } else {
+                response.write(JSON.stringify(database));
+            }
+            response.end();
+        }
+    });
 });
 
-dispatcher.onError(function(req, res) {
-    res.writeHead(404);
-    res.end();
+dispatcher.onError(function(request, response) {
+    response.writeHead(404);
+    response.write('Path not found');
+    response.end();
 });
 
 //We need a function which handles requests and send response
@@ -48,7 +45,7 @@ function handleRequest(request, response){
         //Disptach
         dispatcher.dispatch(request, response);
     } catch(err) {
-        console.log(err);
+        console.error(err);
     }
 }
 

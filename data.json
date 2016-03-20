@@ -1,0 +1,9 @@
+{
+  "entries": [{
+    "date": "Today",
+    "content": "I did things."
+  }, {
+    "date": "Tomorrow",
+    "content": "I did something else."
+  }]
+}
