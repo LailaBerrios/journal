@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/joycem137/journal",
   "dependencies": {
+    "httpdispatcher": "^1.0.0",
     "polyfills": "./local_modules/polyfills"
   }
 }
