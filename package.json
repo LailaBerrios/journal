@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/joycem137/journal/issues"
   },
-  "homepage": "https://github.com/joycem137/journal"
+  "homepage": "https://github.com/joycem137/journal",
+  "dependencies": {
+    "polyfills": "./local_modules/polyfills"
+  }
 }
