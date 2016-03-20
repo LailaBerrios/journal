@@ -9,21 +9,43 @@ var jsonfile = require('jsonfile');
 //Lets define a port we want to listen to
 var PORT=32100;
 
-//A sample GET request
+function makeNewEntry(newEntryData, oldEntryData) {
+    console.log(newEntryData);
+    return {
+        date: 'temp',
+        contents: 'temp'
+    };
+}
+
+function handleServerError(err, response) {
+    console.error(err);
+    response.writeHead(500, {'Content-Type': 'text/plain'});
+    response.write(err);
+    response.end();
+}
+
+function handleNotFoundError(err, response) {
+    console.error(err);
+    response.writeHead(404);
+    response.write(err);
+    response.end();
+}
+
+//Return requests for the journal data.
 dispatcher.onGet("/journal", function(request, response) {
     jsonfile.readFile('data.json', function(err, database) {
         if (err) {
-            console.error(err);
-            response.writeHead(500, {'Content-Type': 'text/plain'});
-            response.write(err);
-            response.end();
+            handleServerError(err, response);
         } else {
             var entryIdString = request.params.entry;
-            var entryId = entryIdString && Number(entryIdString);
             response.writeHead(200, {'Content-Type': 'application/json'});
-            if (entryIdString && entryId >= 0 && entryId < database.entries.length) {
-                response.write(JSON.stringify(database.entries[entryId]));
+            if (entryIdString && database.entries[entryIdString]) {
+                response.writeHead(200, {'Content-Type': 'application/json'});
+                response.write(JSON.stringify(database.entries[entryIdString]));
+            } else if (entryIdString) {
+                handleNotFoundError('Entry not found', response);
             } else {
+                response.writeHead(200, {'Content-Type': 'application/json'});
                 response.write(JSON.stringify(database));
             }
             response.end();
@@ -31,10 +53,33 @@ dispatcher.onGet("/journal", function(request, response) {
     });
 });
 
+dispatcher.onPost('/journal', function(request, response) {
+    console.log('params: ' + JSON.stringify(request.params));
+    jsonfile.readFile('data.json', function(err, database) {
+        if (err) {
+            handleServerError(err, response);
+        } else {
+            var entryIdString = request.params.entry;
+            if (entryIdString) {
+                if (database[entryIdString]) {
+                    response.writeHead(200, {'Content-Type': 'application/json'});
+                } else {
+                    response.writeHead(201, {'Content-Type': 'application/json'});
+                }
+                var newEntry = makeNewEntry(request, database[entryIdString]);
+                database[entryIdString] = newEntry;
+                jsonfile.writeFileSync('data.json', database);
+                response.write(JSON.stringify(newEntry));
+                response.end();
+            } else {
+                handleServerError('Incorrect entry string of ' + entryIdString, response);
+            }
+        }
+    });
+});
+
 dispatcher.onError(function(request, response) {
-    response.writeHead(404);
-    response.write('Path not found');
-    response.end();
+    handleNotFoundError('Path not found', response);
 });
 
 //We need a function which handles requests and send response

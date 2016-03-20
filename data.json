@@ -1,9 +1,1 @@
-{
-  "entries": [{
-    "date": "Today",
-    "content": "I did things."
-  }, {
-    "date": "Tomorrow",
-    "content": "I did something else."
-  }]
-}
+{"2":{"date":"temp","contents":"temp"},"entries":{"0":{"date":"Today","content":"I did things."},"1":{"date":"Tomorrow","content":"I did something else."}}}
