@@ -4,18 +4,10 @@
 //Lets require/import the HTTP module
 const http = require('http');
 const dispatcher = require('httpdispatcher');
-const jsonfile = require('jsonfile');
+const database = require('./database');
 
 //Lets define a port we want to listen to
 const PORT=32100;
-
-function makeNewEntry(newEntryData, oldEntryData) {
-    console.log(newEntryData);
-    return {
-        date: 'temp',
-        contents: 'temp'
-    };
-}
 
 function handleServerError(err, response) {
     console.error(err);
@@ -33,13 +25,13 @@ function handleNotFoundError(err, response) {
 
 //Return requests for the journal data.
 dispatcher.onGet("/journal", function(request, response) {
-    jsonfile.readFile('data.json', function(err, database) {
+    database.open((err, database) => {
         if (err) {
             handleServerError(err, response);
         } else {
             const entryIdString = request.params.entry;
-            response.writeHead(200, {'Content-Type': 'application/json'});
-            if (entryIdString && database.entries[entryIdString]) {
+            const entry = database.getEntry(entryIdString);
+            if (entryIdString && entry) {
                 response.writeHead(200, {'Content-Type': 'application/json'});
                 response.write(JSON.stringify(database.entries[entryIdString]));
             } else if (entryIdString) {
