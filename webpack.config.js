@@ -14,7 +14,7 @@ fs.readdirSync('node_modules')
 const OUTPUT_DIR = path.join(__dirname, 'build');
 
 module.exports = {
-    entry: './server/server.js',
+    entry: './backend/backend.js',
     target: 'node',
     output: {
         path: OUTPUT_DIR,

@@ -2,12 +2,12 @@
  * Our server backend.
  */
 //Lets require/import the HTTP module
-var http = require('http');
-var dispatcher = require('httpdispatcher');
-var jsonfile = require('jsonfile');
+const http = require('http');
+const dispatcher = require('httpdispatcher');
+const jsonfile = require('jsonfile');
 
 //Lets define a port we want to listen to
-var PORT=32100;
+const PORT=32100;
 
 function makeNewEntry(newEntryData, oldEntryData) {
     console.log(newEntryData);
@@ -37,7 +37,7 @@ dispatcher.onGet("/journal", function(request, response) {
         if (err) {
             handleServerError(err, response);
         } else {
-            var entryIdString = request.params.entry;
+            const entryIdString = request.params.entry;
             response.writeHead(200, {'Content-Type': 'application/json'});
             if (entryIdString && database.entries[entryIdString]) {
                 response.writeHead(200, {'Content-Type': 'application/json'});
@@ -59,14 +59,14 @@ dispatcher.onPost('/journal', function(request, response) {
         if (err) {
             handleServerError(err, response);
         } else {
-            var entryIdString = request.params.entry;
+            const entryIdString = request.params.entry;
             if (entryIdString) {
                 if (database[entryIdString]) {
                     response.writeHead(200, {'Content-Type': 'application/json'});
                 } else {
                     response.writeHead(201, {'Content-Type': 'application/json'});
                 }
-                var newEntry = makeNewEntry(request, database[entryIdString]);
+                const newEntry = makeNewEntry(request, database[entryIdString]);
                 database[entryIdString] = newEntry;
                 jsonfile.writeFileSync('data.json', database);
                 response.write(JSON.stringify(newEntry));
@@ -95,7 +95,7 @@ function handleRequest(request, response){
 }
 
 //Create a server
-var server = http.createServer(handleRequest);
+const server = http.createServer(handleRequest);
 
 //Lets start our server
 server.listen(PORT, function(){
