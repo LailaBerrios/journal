@@ -4,7 +4,8 @@
   "description": "A simple journaling system",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./build/server.js",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -17,8 +18,16 @@
   },
   "homepage": "https://github.com/joycem137/journal",
   "dependencies": {
+    "babel": "^5.8.21",
+    "babel-core": "^5.8.22",
+    "babel-loader": "^5.3.2",
+    "fs-extra": "^0.26.7",
     "httpdispatcher": "^1.0.0",
     "jsonfile": "^2.2.3",
-    "polyfills": "./local_modules/polyfills"
+    "polyfills": "./local_modules/polyfills",
+    "react": "^0.13.3",
+    "source-map-support": "^0.4.0",
+    "webpack": "^1.12.0",
+    "webpack-dev-server": "^1.10.1"
   }
 }
