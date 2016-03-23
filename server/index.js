@@ -3,7 +3,7 @@
  */
 
 // Get this overwith
-require('polyfills');
+require('jsPolyfills');
 
 const express = require('express');
 const app = express();

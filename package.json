@@ -26,6 +26,7 @@
     "css-loader": "^0.23.1",
     "express": "^4.13.4",
     "fs-extra": "^0.26.7",
+    "jsPolyfills": "file:../../../../var/folders/fk/_kntpyn908sg2pwtl3mhgd600000gn/T/npm-54772-cd267332/git-cache-9e4de43df124/577b14cdbf7a3d38be8891f55fc449947516cdd5",
     "jsonfile": "^2.2.3",
     "polyfills": "./local_modules/polyfills",
     "react": "^0.13.3",

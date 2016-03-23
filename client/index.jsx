@@ -1,7 +1,7 @@
 /**
  * Just the doorway into the app.
  */
-require('polyfills');
+require('jsPolyfills');
 
 require('./stylesheets/main.css');
 
