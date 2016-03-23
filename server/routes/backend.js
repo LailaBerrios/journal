@@ -18,7 +18,14 @@ function handleServerError(err, response) {
 router.get("/allEntries", function(request, response) {
     database.open()
         .then((database) => {
-            response.json(database);
+            const {entries} = database;
+            const outputArray = [];
+            for (let key in entries) {
+                if (entries.hasOwnProperty(key)) {
+                    outputArray.push(entries[key]);
+                }
+            }
+            response.json(outputArray);
             response.end();
         })
         .catch((error) => {

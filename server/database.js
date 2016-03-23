@@ -38,6 +38,7 @@ module.exports = {
             return new Promise((resolve, reject) => {
                 if (database) {
                     database.entries[id] = {
+                        id,
                         data,
                         contents
                     };
