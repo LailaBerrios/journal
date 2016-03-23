@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node ./build/server.js",
     "build": "webpack",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "all": "npm run build && npm run start"
   },
   "repository": {
     "type": "git",
@@ -14,10 +15,7 @@
   },
   "author": "Joyce Mayorga and Laila Berrios",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/joycem137/journal/issues"
-  },
-  "homepage": "https://github.com/joycem137/journal",
+  "homepage": "http://ptsd-journal.herokuapp.com/",
   "dependencies": {
     "babel": "^5.8.21",
     "babel-core": "^5.8.22",
