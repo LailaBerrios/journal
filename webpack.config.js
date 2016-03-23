@@ -16,7 +16,7 @@ const OUTPUT_DIR = path.join(__dirname, 'build');
 
 module.exports = [
     {
-        entry: './app.js',
+        entry: './server/index.js',
         target: 'node',
         output: {
             path: OUTPUT_DIR,
@@ -44,7 +44,7 @@ module.exports = [
         }
     },
     {
-        entry: ['./frontend/index.jsx'],
+        entry: ['./client/index.jsx'],
 
         output: {
             path: OUTPUT_DIR,
