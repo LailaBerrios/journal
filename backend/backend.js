@@ -7,7 +7,7 @@ const dispatcher = require('httpdispatcher');
 const database = require('./database');
 
 //Lets define a port we want to listen to
-const PORT=32100;
+const PORT=process.env.PORT || 5000;
 
 function handleServerError(err, response) {
     console.error(err);
