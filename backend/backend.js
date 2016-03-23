@@ -7,7 +7,7 @@ const dispatcher = require('httpdispatcher');
 const jsonfile = require('jsonfile');
 
 //Lets define a port we want to listen to
-const PORT=32100;
+const PORT=process.env.PORT || 5000;
 
 function makeNewEntry(newEntryData, oldEntryData) {
     console.log(newEntryData);
