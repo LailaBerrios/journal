@@ -16,12 +16,7 @@ function handleServerError(err, response) {
     response.end();
 }
 
-function handleNotFoundError(err, response) {
-    console.error(err);
-    response.writeHead(404);
-    response.write(err);
-    response.end();
-}
+app.use(express.static('public'));
 
 //Return requests for the journal data.
 app.get("/", function(request, response) {
@@ -35,33 +30,38 @@ app.get("/", function(request, response) {
         });
 });
 
-//Return requests for the journal d`ata.
-app.get("/entry", function(request, response) {
-    const entryIdString = request.params.entry;
-    database.getEntry(entryIdString)
-        .then((entry) => {
-            response.json(entry);
-            response.end();
-        })
-        .catch((error) => {
-            handleServerError(error, response);
-        });
+app.param('id', function (request, response, next, id) {
+    request.params.entryId = id;
+    next();
 });
 
-app.post('/entry', function(request, response) {
-    const entryIdString = request.params.entry;
-    database.addEntry(entryIdString, request.params)
-        .then((entry) => {
-            return database.close()
-                .then(() => {
-                    response.json(entry);
-                    response.end();
-                });
-        })
-        .catch((error) => {
-            handleServerError(error, response);
-        });
-});
+//Return requests for the journal d`ata.
+app.route('/entry/:id')
+    .get((request, response) => {
+        const {entryId} = request.params;
+        database.getEntry(entryId)
+            .then((entry) => {
+                response.json(entry);
+                response.end();
+            })
+            .catch((error) => {
+                handleServerError(error, response);
+            });
+    })
+    .post((request, response) => {
+        const {entryId} = request.params;
+        database.addEntry(entryId, request.params)
+            .then((entry) => {
+                return database.close()
+                    .then(() => {
+                        response.json(entry);
+                        response.end();
+                    });
+            })
+            .catch((error) => {
+                handleServerError(error, response);
+            });
+    });
 
 //Lets start our server
 app.listen(PORT, function(){
