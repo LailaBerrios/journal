@@ -1,12 +1,15 @@
 /**
  * Our server.
  */
+
+// Get this overwith
+require('polyfills');
+
 const express = require('express');
 const app = express();
 
-const backend = require('./backend');
-
-app.use('/backend', backend);
+app.use('/backend', require('./backend'));
+app.use('/', require('./frontend'));
 app.use(express.static('public'));
 
 //Lets define a port we want to listen to
