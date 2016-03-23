@@ -8,42 +8,66 @@ const filename = 'data.json';
 let _database;
 
 module.exports = {
-    open(callback) {
+    open() {
         if (_database) {
-            callback(null, _database);
+            return Promise.resolve( _database);
         } else {
-            jsonfile.readFile(filename, (err, fileContents) => {
-                if (fileContents) _database = fileContents;
-                callback(err, _database);
+            return new Promise((resolve, reject) => {
+                jsonfile.readFile(filename, (err, fileContents) => {
+                    if (!err && fileContents) {
+                        _database = fileContents;
+                    } else {
+                        _database = {};
+                    }
+                    resolve(_database);
+                });
             });
         }
     },
 
-    close(callback) {
-        jsonfile.writeFile(filename, _database, callback);
+    close() {
+        return new Promise((resolve, reject) => {
+            jsonfile.writeFile(filename, _database, () => resolve());
+        });
     },
 
-    addEntry(id, data, callback) {
+    addEntry(id, data) {
         const {date, contents} = data;
-        this.open((err, database) => {
-            if (err) callback(err);
-            if (!database) callback('Database not found');
-            database.entries[id] = {
-                data,
-                contents
-            };
-            getEntry(id, callback);
-        })
+
+        function writeEntry(database) {
+            return new Promise((resolve, reject) => {
+                if (database) {
+                    database.entries[id] = {
+                        data,
+                        contents
+                    };
+                    resolve();
+                } else {
+                    reject('Database not found');
+                }
+            });
+        }
+
+        return this.open()
+            .then(writeEntry)
+            .then(this.getEntry);
     },
 
-    getEntry(id, callback) {
-        this.open((err, database) => {
-            if (err) callback(err);
-            if (!database) callback('Database not found');
+    getEntry(id) {
+        function readEntry(database) {
+            if (!database) {
+                return Promise.reject('Database not found');
+            }
 
             const entry = database.entries[id];
-            if (!entry) callback('Entry not found');
-            callback(err, entry);
-        });
+            if (!entry) {
+                return Promise.reject('Entry not found');
+            }
+
+            return Promise.resolve(entry);
+        }
+
+        return this.open()
+            .then(readEntry);
     }
 };

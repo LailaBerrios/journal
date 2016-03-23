@@ -25,48 +25,45 @@ function handleNotFoundError(err, response) {
 
 //Return requests for the journal data.
 dispatcher.onGet("/", function(request, response) {
-    database.open((err, database) => {
-        if (err) {
-            handleServerError(err, response);
-        } else {
+    database.open()
+        .then((database) => {
             response.writeHead(200, {'Content-Type': 'application/json'});
             response.write(JSON.stringify(database));
             response.end();
-        }
-    });
+        })
+        .catch((error) => {
+            handleServerError(error, response);
+        });
 });
 
 //Return requests for the journal d`ata.
 dispatcher.onGet("/entry", function(request, response) {
     const entryIdString = request.params.entry;
-    database.getEntry(entryIdString, (err, entry) => {
-        if (err) {
-            handleServerError(err, response);
-        } else {
+    database.getEntry(entryIdString)
+        .then((entry) => {
             response.writeHead(200, {'Content-Type': 'application/json'});
             response.write(JSON.stringify(entry));
             response.end();
-        }
-    });
+        })
+        .catch((error) => {
+            handleServerError(error, response);
+        });
 });
 
 dispatcher.onPost('/entry', function(request, response) {
     const entryIdString = request.params.entry;
-    database.addEntry(
-        entryIdString,
-        request.params,
-        (err, entry) => {
-            if (err) {
-                handleServerError(err, response);
-            } else {
-                database.close(() => {
+    database.addEntry(entryIdString, request.params)
+        .then((entry) => {
+            return database.close()
+                .then(() => {
                     response.writeHead(200, {'Content-Type': 'application/json'});
                     response.write(JSON.stringify(entry));
                     response.end();
                 });
-            }
-        }
-    );
+        })
+        .catch((error) => {
+            handleServerError(error, response);
+        });
 });
 
 dispatcher.onError(function(request, response) {
