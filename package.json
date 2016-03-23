@@ -26,7 +26,6 @@
     "fs-extra": "^0.26.7",
     "jsPolyfills": "git://github.com/joycem137/jsPolyfills.git",
     "jsonfile": "^2.2.3",
-    "polyfills": "./local_modules/polyfills",
     "react": "^0.13.3",
     "source-map-support": "^0.4.0",
     "style-loader": "^0.13.0",
