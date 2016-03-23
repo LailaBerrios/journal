@@ -2,7 +2,7 @@
  * Our server backend.
  */
 //Lets require/import the HTTP module
-const database = require('./database');
+const database = require('./util/database');
 
 const express = require('express');
 const router = express.Router();
