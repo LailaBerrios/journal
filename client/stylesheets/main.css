@@ -1,0 +1,22 @@
+.mainContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.entry {
+    border-style: solid;
+    border-width: 1px;
+    margin: 10px;
+}
+
+.date {
+    padding: 4px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.content {
+    padding: 4px;
+    font-size: 20px;
+    font-weight: normal;
+}

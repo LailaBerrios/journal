@@ -16,7 +16,12 @@ const LogViewer = React.createClass({
         return (
             <div key='logs'>
                 { entries.map(
-                    (entry) => (<EntryView key={entry.id} entry={entry}/>)
+                    (entry) => (
+                        <EntryView
+                            key={entry.id}
+                            entry={entry}
+                        />
+                    )
                 )}
             </div>
         );

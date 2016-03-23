@@ -13,11 +13,11 @@ const EntryView = React.createClass({
         const {date, content, id} = entry;
 
         return (
-            <div key='entry'>
-                <div key='date'>
+            <div key='entry' className='entry'>
+                <div key='date' className='date'>
                     {date}
                 </div>
-                <div key='content'>
+                <div key='content' className='content'>
                     {content}
                 </div>
             </div>

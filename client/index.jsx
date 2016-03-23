@@ -3,6 +3,8 @@
  */
 require('polyfills');
 
+require('./stylesheets/main.css');
+
 const React = require('react');
 
 const database = require('./database');
@@ -30,7 +32,7 @@ const MainApp = React.createClass({
         }
 
         return (
-            <div key='main'>
+            <div key='main' className='mainContainer'>
                 {contents}
             </div>
         );
