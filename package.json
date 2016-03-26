@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./build/server.js",
-    "build": "webpack",
+    "build": "node_modules/.bin/webpack",
     "postinstall": "npm run build",
     "all": "npm run build && npm run start"
   },
@@ -25,7 +25,7 @@
     "express": "^4.13.4",
     "fs-extra": "^0.26.7",
     "jsPolyfills": "git://github.com/joycem137/jsPolyfills.git",
-    "jsonfile": "^2.2.3",
+    "pg": "^4.5.1",
     "react": "^0.13.3",
     "source-map-support": "^0.4.0",
     "style-loader": "^0.13.0",

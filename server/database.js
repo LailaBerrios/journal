@@ -1,74 +1,39 @@
 /**
- * Interface to our simple database.
+ * Helper interface to access our database.
  */
-const jsonfile = require('jsonfile');
 
-const filename = 'data.json';
+const pg = require('pg');
 
-let _database;
+//pg.defaults.ssl = true;
+
+const {DATABASE_URL} = process.env;
 
 module.exports = {
-    open() {
-        if (_database) {
-            return Promise.resolve( _database);
-        } else {
-            return new Promise((resolve, reject) => {
-                jsonfile.readFile(filename, (err, fileContents) => {
-                    if (!err && fileContents) {
-                        _database = fileContents;
-                    } else {
-                        _database = {};
-                    }
-                    resolve(_database);
-                });
-            });
-        }
-    },
-
-    close() {
+    getAllEntries() {
         return new Promise((resolve, reject) => {
-            jsonfile.writeFile(filename, _database, () => resolve());
+            pg.connect(DATABASE_URL, (err, client, done) => {
+                if (err) {
+                    done();
+                    reject(err);
+                } else {
+                    client.query('SELECT * FROM entry_table;', (err, result) => {
+                        done();
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(result.rows);
+                        }
+                    });
+                }
+            });
         });
     },
 
     addEntry(id, data) {
-        const {date, contents} = data;
-
-        function writeEntry(database) {
-            return new Promise((resolve, reject) => {
-                if (database) {
-                    database.entries[id] = {
-                        id,
-                        data,
-                        contents
-                    };
-                    resolve();
-                } else {
-                    reject('Database not found');
-                }
-            });
-        }
-
-        return this.open()
-            .then(writeEntry)
-            .then(this.getEntry);
+        return Promise.reject('Not implemented');
     },
 
     getEntry(id) {
-        function readEntry(database) {
-            if (!database) {
-                return Promise.reject('Database not found');
-            }
-
-            const entry = database.entries[id];
-            if (!entry) {
-                return Promise.reject('Entry not found');
-            }
-
-            return Promise.resolve(entry);
-        }
-
-        return this.open()
-            .then(readEntry);
+        return Promise.reject('Not implemented');
     }
 };

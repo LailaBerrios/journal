@@ -16,16 +16,9 @@ function handleServerError(err, response) {
 
 //Return requests for the journal data.
 router.get("/allEntries", function(request, response) {
-    database.open()
-        .then((database) => {
-            const {entries} = database;
-            const outputArray = [];
-            for (let key in entries) {
-                if (entries.hasOwnProperty(key)) {
-                    outputArray.push(entries[key]);
-                }
-            }
-            response.json(outputArray);
+    database.getAllEntries()
+        .then((allEntries) => {
+            response.json(allEntries);
             response.end();
         })
         .catch((error) => {
