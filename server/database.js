@@ -4,36 +4,89 @@
 
 const pg = require('pg');
 
-//pg.defaults.ssl = true;
+const squel = require('squel');
+
+pg.defaults.ssl = true;
+
+const ENTRY_TABLE = 'entry_table';
+
+const entryColumns = [
+    'date',
+    'time',
+    'content'
+];
 
 const {DATABASE_URL} = process.env;
 
-module.exports = {
-    getAllEntries() {
+function connectToDB() {
+    return new Promise((resolve, reject) => {
+        pg.connect(DATABASE_URL, (err, client, done) => {
+            if (err) {
+                done();
+                reject(err);
+            } else {
+                resolve({arguments, client, done});
+            }
+        });
+    });
+}
+
+function performQuery(query) {
+    const queryString = query.toString();
+    console.log('Setting up to perform query ' + queryString);
+    return function({client, done}) {
         return new Promise((resolve, reject) => {
-            pg.connect(DATABASE_URL, (err, client, done) => {
+            client.query(queryString, (err, result) => {
+                done();
                 if (err) {
-                    done();
                     reject(err);
                 } else {
-                    client.query('SELECT * FROM entry_table;', (err, result) => {
-                        done();
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve(result.rows);
-                        }
-                    });
+                    resolve(result);
                 }
             });
         });
+    }
+}
+
+function selectRows(result) {
+    return Promise.resolve(result.rows);
+}
+
+function buildInsertQuery(id, data) {
+    let query = squel.insert()
+        .into(ENTRY_TABLE)
+        .set('id', id);
+    entryColumns.forEach(columnName => {
+        if(data[columnName]) {
+            query = query.set(columnName, data[columnName]);
+        }
+    });
+
+    return query;
+}
+
+module.exports = {
+    getAllEntries() {
+        const query = squel.select()
+            .from(ENTRY_TABLE)
+            .order('date');
+        return connectToDB()
+            .then(performQuery(query))
+            .then(selectRows);
     },
 
     addEntry(id, data) {
-        return Promise.reject('Not implemented');
+        const queryString = buildInsertQuery(id, data);
+        return connectToDB()
+            .then(performQuery(queryString));
     },
 
     getEntry(id) {
-        return Promise.reject('Not implemented');
+        const query = squel.select()
+            .from(ENTRY_TABLE)
+            .where('id = ' + id);
+        return connectToDB()
+            .then(performQuery(query))
+            .then(selectRows);
     }
 };

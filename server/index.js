@@ -8,6 +8,9 @@ require('jsPolyfills');
 const express = require('express');
 const app = express();
 
+const bodyParser = require('body-parser');
+app.use( bodyParser.json() ); // to support JSON-encoded bodies
+
 app.use('/backend', require('./routes/backend'));
 app.use('/', require('./routes/frontend'));
 app.use(express.static('public'));

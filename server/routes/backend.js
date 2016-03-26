@@ -46,13 +46,10 @@ router.route('/entry/:id')
     })
     .post((request, response) => {
         const {entryId} = request.params;
-        database.addEntry(entryId, request.params)
-            .then((entry) => {
-                return database.close()
-                    .then(() => {
-                        response.json(entry);
-                        response.end();
-                    });
+        database.addEntry(entryId, request.body)
+            .then((result) => {
+                response.json(result);
+                response.end();
             })
             .catch((error) => {
                 handleServerError(error, response);
