@@ -2,21 +2,16 @@
  * Just the doorway into the app.
  */
 require('jsPolyfills');
-
 require('./stylesheets/main.css');
 
 const React = require('react');
+const { render } = require('react-dom');
+const { Router, Route, Link, browserHistory } = require('react-router');
 
-const LogViewer = require('./views/logViewer.jsx');
+const routes = require('./routes.jsx');
 
-const MainApp = React.createClass({
-    render() {
-        return (
-            <div key='main' className='mainContainer'>
-                <LogViewer/>
-            </div>
-        );
-    }
-});
-
-React.render(<MainApp/>, document.getElementById('app'));
+render((
+    <Router history={browserHistory}>
+        {routes}
+    </Router>
+), document.getElementById('app'));

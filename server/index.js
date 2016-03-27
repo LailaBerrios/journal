@@ -14,11 +14,8 @@ app.use( bodyParser.raw() ); // to support unencoded bodies
 app.use( bodyParser.urlencoded() ); // to support URL-encoded bodies
 
 app.use('/backend', require('./routes/backend'));
-app.use('/', require('./routes/frontend'));
 app.use(express.static('public'));
-
-const staticFile = require('connect-static-file');
-app.use('/client.js', staticFile(__dirname + '/build/client.js'));
+app.use('/', require('./routes/frontend'));
 
 //Lets define a port we want to listen to
 const PORT=process.env.PORT || 5000;
