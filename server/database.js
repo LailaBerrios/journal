@@ -53,14 +53,16 @@ function selectRows(result) {
 }
 
 function buildInsertQuery(id, data) {
-    let query = squel.insert()
-        .into(ENTRY_TABLE)
-        .set('id', id);
+    const fields = {id: id};
     entryColumns.forEach(columnName => {
         if(data[columnName]) {
-            query = query.set(columnName, data[columnName]);
+            fields[columnName] = data[columnName];
         }
     });
+
+    const query = squel.insert()
+        .into(ENTRY_TABLE)
+        .setFields(fields);
 
     return query;
 }
