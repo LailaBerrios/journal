@@ -64,5 +64,27 @@ module.exports = [
                 'node_modules'
             ]
         }
+    },
+    {
+        entry: ['./tests/index.js'],
+
+        output: {
+            path: OUTPUT_DIR,
+            filename: 'test.js'
+        },
+
+        module: {
+            loaders: [
+                { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
+                { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ },
+                { test: /\.css$/, loader: "style-loader!css-loader" }
+            ]
+        },
+
+        resolve: {
+            modulesDirectories: [
+                'node_modules'
+            ]
+        }
     }
 ];
