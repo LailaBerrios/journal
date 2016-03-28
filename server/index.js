@@ -21,6 +21,7 @@ app.use('/', require('./routes/frontend'));
 // Images, sound files, etc. should be served from the
 // public directory.
 app.use(express.static('public'));
+app.use('/', require('./routes/frontend'));
 
 // The default port is 5000.  In production, the port is defined
 // by the Heroku environment variable.

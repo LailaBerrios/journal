@@ -29,7 +29,7 @@ function getPath(path) {
     });
 }
 
-module.exports = function(Component, {path}) {
+module.exports = function(Component, {path, selector}) {
     return React.createClass({
         getInitialState() {
             return {
@@ -44,8 +44,19 @@ module.exports = function(Component, {path}) {
         },
 
         render() {
+            const {data} = this.state;
+            let dataProps;
+            
+            if (!data ) {
+                dataProps = {};
+            } else if (selector) {
+                dataProps = selector(data);
+            } else {
+                dataProps = {data};
+            }
+
             return (
-                <Component {...this.props} {...this.state}/>
+                <Component {...this.props} {...dataProps}/>
             );
         }
     });

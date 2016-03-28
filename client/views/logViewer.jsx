@@ -7,19 +7,19 @@ const EntryView = require('./entryView.jsx');
 
 const LogViewer = React.createClass({
     propTypes: {
-        data: React.PropTypes.array
+        entries: React.PropTypes.array
     },
 
     render() {
-        const {data} = this.props;
+        const {entries} = this.props;
 
-        if (!data) {
+        if (!entries) {
             return (<div key='logs'/>);
         }
 
         return (
             <div key='logs'>
-                { data.map(
+                { entries.map(
                     (entry) => (
                         <EntryView
                             key={entry.id}
@@ -32,8 +32,11 @@ const LogViewer = React.createClass({
     }
 });
 
+// Wrap the log viewer in a data requestor that requests
+// the indicated data.
 const DataRequestor = require('../dataRequestor.jsx');
 
 module.exports = DataRequestor(LogViewer, {
-    path: '/backend/allEntries'
+    path: '/backend/allEntries',
+    selector(entries) { return {entries};}
 });
