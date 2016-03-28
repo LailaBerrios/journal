@@ -7,9 +7,33 @@
 const React = require('react');
 
 const AddNewEntry = React.createClass({
+    getInitialState() {
+        return {
+            mood: 'Hello!'
+        };
+    },
+
+    handleMoodChange(event) {
+        const textBox = event.target;
+        const mood = textBox.value;
+        this.setState({
+            // mood: mood, not needed in es6
+            mood
+        });
+    },
+
     render() {
+        const {mood} = this.state;
+        // same thing: var mood = this.state.mood;
+
         return (
-            <div>Hello World!</div>
+            <div className='addNewEntry'>
+                <input
+                    type="text"
+                    value={mood}
+                    onChange={this.handleMoodChange}
+                />
+            </div>
         );
     }
 });
