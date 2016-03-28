@@ -28,11 +28,22 @@ const AddNewEntry = React.createClass({
 
         return (
             <div className='addNewEntry'>
-                <input
-                    type="text"
-                    value={mood}
-                    onChange={this.handleMoodChange}
-                />
+                <div className='inputField'>
+                    <div className='inputTitle'>Mood</div>
+                    <input
+                        className='inputInput'
+                        type="text"
+                        value={mood}
+                        onChange={this.handleMoodChange}
+                    />
+                </div>
+                <div className='inputField'>
+                    <div className='inputTitle'>Date</div>
+                    <input
+                        className='inputInput'
+                        type="text"
+                    />
+                </div>
             </div>
         );
     }
