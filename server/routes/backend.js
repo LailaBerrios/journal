@@ -1,7 +1,6 @@
 /**
  * Our server backend.
  */
-//Lets require/import the HTTP module
 const database = require('../database');
 
 const express = require('express');

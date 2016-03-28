@@ -25,7 +25,7 @@ function connectToDB() {
                 done();
                 reject(err);
             } else {
-                resolve({arguments, client, done});
+                resolve({client, done});
             }
         });
     });
