@@ -37,8 +37,9 @@
     "webpack-dev-server": "^1.10.1"
   },
   "devDependencies": {
-    "mocha": "^2.4.5",
     "chai": "^3.5.0",
-    "fs-extra": "^0.26.7"
+    "fs-extra": "^0.26.7",
+    "mocha": "^2.4.5",
+    "sinon": "^1.17.3"
   }
 }
