@@ -1,5 +1,5 @@
 /**
- * Renders a single log
+ * Renders a single log entry.
  */
 const React = require('react');
 
