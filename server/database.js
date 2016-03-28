@@ -150,7 +150,8 @@ module.exports = {
      * to the database.
      *
      * @param id
-     * @param data
+     * @param data An object containing the properties we want
+     *              to add to the row.
      * @returns {*}
      */
     addEntry(id, data) {
