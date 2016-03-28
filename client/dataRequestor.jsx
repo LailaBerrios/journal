@@ -44,8 +44,12 @@ module.exports = function(Component, {path, selector}) {
         },
 
         render() {
-            let dataProps = {};
-            if (selector) {
+            const {data} = this.state;
+            let dataProps;
+            
+            if (!data ) {
+                dataProps = {};
+            } else if (selector) {
                 dataProps = selector(data);
             } else {
                 dataProps = {data};
