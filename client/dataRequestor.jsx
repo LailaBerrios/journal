@@ -1,8 +1,17 @@
 /**
- *
+ * This is a higher Order Component that requests a specific
+ * path of data for its children.  It can be used to request
+ * a single endpoint for a child.
  */
 const React = require('react');
 
+/**
+ * Returns a promise that resolves when the http request
+ * successfully completes.
+ *
+ * @param path
+ * @returns {Promise}
+ */
 function getPath(path) {
     return new Promise((resolve, reject) => {
         const httpRequest = new XMLHttpRequest();
