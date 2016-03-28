@@ -5,11 +5,13 @@
 //create react class
 //export it
 const React = require('react');
+const TextInput = require('../textInput.jsx');
 
 const AddNewEntry = React.createClass({
     getInitialState() {
         return {
-            mood: 'Hello!'
+            mood: 'Hello!',
+            date: 'None for now'
         };
     },
 
@@ -22,28 +24,30 @@ const AddNewEntry = React.createClass({
         });
     },
 
+    handleDateChange(event) {
+        const textBox = event.target;
+        const date = textBox.value;
+        this.setState({
+            date
+        });
+    },
+
     render() {
-        const {mood} = this.state;
+        const {mood, date} = this.state;
         // same thing: var mood = this.state.mood;
 
         return (
             <div className='addNewEntry'>
-                <div className='inputField'>
-                    <div className='inputTitle'>Mood</div>
-                    <input
-                        className='inputInput'
-                        type="text"
-                        value={mood}
-                        onChange={this.handleMoodChange}
-                    />
-                </div>
-                <div className='inputField'>
-                    <div className='inputTitle'>Date</div>
-                    <input
-                        className='inputInput'
-                        type="text"
-                    />
-                </div>
+                <TextInput
+                    label='Mood'
+                    onChange={this.handleMoodChange}
+                    value={mood}
+                />
+                <TextInput
+                    label='Date'
+                    onChange={this.handleDateChange}
+                    value={date}
+                />
             </div>
         );
     }
