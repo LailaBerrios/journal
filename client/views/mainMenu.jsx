@@ -10,6 +10,7 @@ const MainMenu = React.createClass({
         return (
             <div key='menu' className='mainMenu'>
                 <Link to='/journal'>View Journal Entries</Link>
+                <Link to='/addNewEntry'>Add New Entry</Link>
             </div>
         );
     }

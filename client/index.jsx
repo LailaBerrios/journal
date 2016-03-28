@@ -11,11 +11,12 @@ require('./stylesheets/main.css');
 // The react component.
 const React = require('react');
 const { render } = require('react-dom');
-const { Router, Route, Link, browserHistory } = require('react-router');
+const { Router, browserHistory } = require('react-router');
 
 const routes = require('./routes.jsx');
 
 render((
+    // to do client side routing
     <Router history={browserHistory}>
         {routes}
     </Router>
