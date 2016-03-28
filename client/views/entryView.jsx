@@ -12,10 +12,12 @@ const EntryView = React.createClass({
         const {entry} = this.props;
         const {date, content, id} = entry;
 
+        const dateObj = new Date(date);
+
         return (
             <div key='entry' className='entry'>
                 <div key='date' className='date'>
-                    {date}
+                    {dateObj.toLocaleString()}
                 </div>
                 <div key='content' className='content'>
                     {content}
