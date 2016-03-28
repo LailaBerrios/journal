@@ -37,7 +37,9 @@ router.get('/client.js', (request, response) => {
     response.sendFile('client.js', {root: './build'});
 });
 
-// Redirect all other requests to root.
+/**
+ * Redirect child routes to our chome page.
+ */
 router.get('*', function(request, response) {
     // Note that req.url here should be the full URL path from
     // the original request, including the query string.

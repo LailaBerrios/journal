@@ -1,5 +1,6 @@
 /**
- *
+ * This is the main menu that links to all of our other
+ * routes and pages.
  */
 const React = require('react');
 const {Link} = require('react-router');

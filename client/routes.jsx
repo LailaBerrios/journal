@@ -1,5 +1,7 @@
 /**
- * A place to keep all of the different routes we support.
+ * Each route contains its own information and behavior.
+ * This file exports all of the routes that we support in our
+ * app.
  */
 const React = require('react');
 const { Router, Route, Link, browserHistory } = require('react-router');
